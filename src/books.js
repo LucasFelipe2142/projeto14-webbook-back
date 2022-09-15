@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const mongoClient = new MongoClient(process.env.URI);
+const mongoClient = new MongoClient(process.env.MONGO_URI);
 
 let db;
 
@@ -14,16 +14,18 @@ mongoClient.connect().then(() => {
 });
 
 export async function postBook(req, res) {
-  db.collection('sessionsBD').findOne({
-    token: req.headers.token,
-  }).then((result) => {
-    if (result === null) return res.sendStatus(404);
-    db.collection('booksBD').insertOne({
-      ...req.body,
-      userID: result.userID,
-    });
-    res.sendStatus(201);
-  });
+  db.collection('sessionsBD')
+      .findOne({
+        token: req.headers.token,
+      })
+      .then((result) => {
+        if (result === null) return res.sendStatus(404);
+        db.collection('booksBD').insertOne({
+          ...req.body,
+          userID: result.userID,
+        });
+        res.sendStatus(201);
+      });
 }
 
 export async function getBook(req, res) {
@@ -36,15 +38,16 @@ export async function getBook(req, res) {
           res.send(user);
         });
   } else {
-    db.collection('booksBD').find({
-      genre: genre,
-    }).toArray().then((user) => {
-      if (user.length === 0) return res.sendStatus(404);
-      else {
-        res.send(user);
-      }
-    });
+    db.collection('booksBD')
+        .find({
+          genre: genre,
+        })
+        .toArray()
+        .then((user) => {
+          if (user.length === 0) return res.sendStatus(404);
+          else {
+            res.send(user);
+          }
+        });
   }
 }
-
-

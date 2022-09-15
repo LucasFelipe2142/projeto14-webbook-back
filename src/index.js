@@ -20,7 +20,9 @@ app.post('/sold', validaBook, postBook);
 
 app.get('/home/:genre', getBook);
 
-app.listen(5000);
+app.listen(process.env.PORT, () => {
+  console.log('Server running on port ' + process.env.PORT);
+});
 
 function start() {
   const app = express();
