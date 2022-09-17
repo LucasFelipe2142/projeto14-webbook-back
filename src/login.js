@@ -30,7 +30,7 @@ export async function postLogin(req, res) {
               })
               .then(() => {
                 delete user.password;
-                res.send({token: token, name: user.name});
+                res.send({token: token, name: user.name, userId: user.userId});
               });
         } else {
           res.send(404);

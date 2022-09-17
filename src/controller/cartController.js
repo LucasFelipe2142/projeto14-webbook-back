@@ -9,10 +9,12 @@ let db = await mongo();
 const cartGet = async (req, res) => {
   const user = res.locals.user;
 
+  let userId = user.userId.toString();
+
   try {
     const booksCart = await db
       .collection('cart')
-      .findOne({ id: user.userId });
+      .findOne({ userId: user.userId });
 
     if (!booksCart) {
       res.sendStatus(404);
@@ -31,13 +33,16 @@ const cartInsert = async (req, res) => {
   const bookData = req.body;
   console.log(bookData);
 
+  const userId = await db.collection('sessionsBD').findOne({ token: user.token });
+
+
   try {
     const cart = await db
       .collection('cart')
-      .findOne({userId: user.userId});
+      .findOne({userId: userId});
 
       if (!cart) {
-        const newCart = {userId:user.userId, 
+        const newCart = {userId:userId, 
           products:[bookData],
           totalPrice:bookData.price};
 

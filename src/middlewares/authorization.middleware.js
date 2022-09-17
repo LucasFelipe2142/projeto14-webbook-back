@@ -7,11 +7,10 @@ async function hasUser(req, res, next) {
   const { token } = req.headers;
 
   try {
+
     let db = await mongo();
 
-    const user = await db.collection('sessionsBD').findOne({
-      token
-    });
+    const user = await db.collection('sessionsBD').findOne({ token: token });
 
     if (!user) {
       return res.sendStatus(401);
