@@ -5,6 +5,8 @@ import {postCadastro, getCadastro} from './cadastro.js';
 import {postLogin, Delete} from './login.js';
 import {postBook, getBook} from './books.js';
 import {validaCadastro, validaBook} from './validations.js';
+import { cartGet } from './controller/cartController.js';
+import cartRoute from './routes/cartRoute';
 
 const app = start();
 
@@ -19,6 +21,8 @@ app.delete('/logout/:token', Delete);
 app.post('/sold', validaBook, postBook);
 
 app.get('/home/:genre', getBook);
+
+app.use(cartRoute);
 
 app.listen(5000);
 
