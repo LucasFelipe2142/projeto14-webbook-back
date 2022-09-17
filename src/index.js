@@ -5,8 +5,7 @@ import {postCadastro, getCadastro} from './cadastro.js';
 import {postLogin, Delete} from './login.js';
 import {postBook, getBook} from './books.js';
 import {validaCadastro, validaBook} from './validations.js';
-import { cartGet } from './controller/cartController.js';
-import cartRoute from './routes/cartRoute';
+import cartRoute from './routes/cartRoute.js';
 
 const app = start();
 
@@ -25,6 +24,7 @@ app.get('/home/:genre', getBook);
 app.use(cartRoute);
 
 app.listen(5000);
+console.log("server running on port 5000");
 
 function start() {
   const app = express();

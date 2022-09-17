@@ -1,6 +1,6 @@
 import joi from 'joi';
 import dayjs from 'dayjs';
-import mongo from '../db/db.js';
+import mongo from '../db/db.js'
 
 //middleware - daqui a pouco ele sai daqui
 async function hasUser(req, res, next) {
@@ -9,12 +9,12 @@ async function hasUser(req, res, next) {
   try {
     let db = await mongo();
 
-    const user = await db.collection('sessions').findOne({
-      token,
+    const user = await db.collection('sessionsBD').findOne({
+      token
     });
 
     if (!user) {
-      return res.send(401);
+      return res.sendStatus(401);
     }
 
     res.locals.user = user;

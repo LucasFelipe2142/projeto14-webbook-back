@@ -1,6 +1,6 @@
 import express from 'express';
-import * as cartController from '../controller/cartController';
-import hasUser from '../middlewares/authorization.middleware';
+import * as cartController from '../controller/cartController.js';
+import hasUser from '../middlewares/authorization.middleware.js';
 
 
 

@@ -12,7 +12,7 @@ const cartGet = async (req, res) => {
   try {
     const booksCart = await db
       .collection('cart')
-      .findOne({ id: user.id });
+      .findOne({ id: user.userId });
 
     if (!booksCart) {
       res.sendStatus(404);
@@ -27,44 +27,45 @@ const cartGet = async (req, res) => {
 
 const cartInsert = async (req, res) => {
   const user = res.locals.user;
+  console.log(user);
   const bookData = req.body;
-  
+  console.log(bookData);
 
   try {
     const cart = await db
       .collection('cart')
-      .findOne({id: user.id});
+      .findOne({userId: user.userId});
 
       if (!cart) {
-        const newCart = {userid:user.id, 
+        const newCart = {userId:user.userId, 
           products:[bookData],
           totalPrice:bookData.price};
 
-          await db.collection('cart').insertOne({
-            newCart
-          });
+          await db.collection('cart').insertOne(newCart);
           return res.sendStatus(200);
       }
 
 
 
-    if(cart.product.some(product => bookData._id === product.id)){
-      res.sendStatus(404)
-      return;
-    }
+    // if(cart.products.some(product => bookData._id === product.id)){
+    //   res.status(404).send("Este livro já está no carrinho");
+    //   return;
+    // }
 
     const upDateProducts = [...cart.products, bookData];
 
       let total = 0;
-      for(i=0; i<upDateProducts.length; i++){
+      for(let i=0; i<upDateProducts.length; i++){
         total = upDateProducts[i].price + total;
       }
 
-      const newCart = {id,upDateProducts,totalPrice}
+      //const newCart = {id,upDateProducts,total}
 
+      console.log("chegou");
+      console.log(cart);
       await db.collection('cart').updateOne({ 
-        _id: user._id 
-      }, { $set: newCart })
+        _id: cart._id 
+      }, { $set: {products: upDateProducts, totalPrice: total} })
       return res.sendStatus(200);
 
     

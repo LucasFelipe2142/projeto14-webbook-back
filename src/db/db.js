@@ -6,7 +6,7 @@ export default async function mongo () {
 
     try {
         
-        conn = await mongoClient.db('booksBD')
+        conn = mongoClient.db('webookBD');
     return conn;
     } catch (error) {
         console.error(error)
