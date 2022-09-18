@@ -1,36 +1,34 @@
 /* eslint-disable require-jsdoc */
-import express from 'express';
-import cors from 'cors';
-import {postCadastro, getCadastro} from './cadastro.js';
-import {postLogin, Delete} from './login.js';
-import {postBook, getBook} from './books.js';
-import {validaCadastro, validaBook} from './validations.js';
-import cartRoute from './routes/cartRoute.js';
+import express from "express";
+import cors from "cors";
+import { postCadastro, getCadastro } from "./cadastro.js";
+import { postLogin, Delete } from "./login.js";
+import { postBook, getBook } from "./books.js";
+import { validaCadastro, validaBook } from "./validations.js";
+import cartRoute from "./routes/cartRoute.js";
 
 const app = start();
 
-app.post('/cadastro', validaCadastro, postCadastro);
+app.post("/cadastro", validaCadastro, postCadastro);
 
-app.get('/cadastro', getCadastro);
+app.get("/cadastro", getCadastro);
 
-app.post('/login', postLogin);
+app.post("/login", postLogin);
 
-app.delete('/logout/:token', Delete);
+app.delete("/logout/:token", Delete);
 
-app.post('/sold', validaBook, postBook);
+app.post("/sold", validaBook, postBook);
 
-app.get('/home/:genre', getBook);
-
+app.get("/home/:genre", getBook);
 
 app.use(cartRoute);
 
-//app.listen(5000);
-//console.log("server running on port 5000");
+// app.listen(5000);
+// console.log("server running on port 5000");
 
 app.listen(process.env.PORT, () => {
-  console.log('Server running on port ' + process.env.PORT);
+  console.log("Server running on port " + process.env.PORT);
 });
-
 
 function start() {
   const app = express();
