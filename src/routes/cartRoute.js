@@ -10,5 +10,7 @@ router.get('/cart', hasUser, cartController.cartGet );
 
 router.post('/cart', hasUser, cartController.cartInsert);
 
+router.delete('/cart', hasUser, cartController.cartClean);
+
 
 export default router;
