@@ -22,13 +22,11 @@ export async function postBook(req, res) {
       })
       .then((result) => {
         if (result === null) {
-          console.log('aqui');
           return res.sendStatus(404);
         }
-        console.log(result);
         db.collection('booksBD').insertOne({
           ...req.body,
-          userID: result.userID,
+          userID: result.userId,
         });
         res.sendStatus(201);
       });
