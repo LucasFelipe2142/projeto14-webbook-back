@@ -1,14 +1,14 @@
-/* eslint-disable no-unused-vars */
-// import joi from 'joi';
-// import dayjs from 'dayjs';
-
 import mongo from '../db/db.js';
+import dotenv from 'dotenv';
 
+dotenv.config();
 
 const db = await mongo();
 
 const cartGet = async (req, res) => {
   const user = res.locals.user;
+
+
 
   const userId = user.userId.toString();
 
@@ -17,6 +17,8 @@ const cartGet = async (req, res) => {
         .collection('cart')
         .findOne({userId: user.userId});
 
+
+      console.log(booksCart);
     if (!booksCart) {
       res.sendStatus(404);
       return;
@@ -30,32 +32,31 @@ const cartGet = async (req, res) => {
 
 const cartInsert = async (req, res) => {
   const user = res.locals.user;
-  // console.log(user);
-  const bookData = req.body;
-  // console.log(bookData);
 
-  const userId = await db.collection('sessionsBD').findOne({token: user.token});
+  const bookData = req.body;
 
 
   try {
+    
+    const userId = user.userId.toString();
+    console.log(user);
+
     const cart = await db
         .collection('cart')
         .findOne({userId: userId});
 
-    if (!cart) {
-      const newCart = {userId: userId,
-        products: [bookData],
-        totalPrice: bookData.price};
+      if (!cart) {
+        const newCart = {
+          userId:userId, 
+          products:[bookData],
+          totalPrice:bookData.price};
 
-      await db.collection('cart').insertOne(newCart);
-      return res.sendStatus(200);
-    }
+          await db.collection('cart').insertOne(newCart);
+          return res.sendStatus(200);
+      }
 
 
-    // if(cart.products.some(product => bookData._id === product.id)){
-    //   res.status(404).send("Este livro já está no carrinho");
-    //   return;
-    // }
+    
 
     const upDateProducts = [...cart.products, bookData];
 
@@ -64,23 +65,15 @@ const cartInsert = async (req, res) => {
       total = upDateProducts[i].price + total;
     }
 
-    // const newCart = {id,upDateProducts,total}
-
-    // console.log('chegou');
-    // console.log(cart);
     await db.collection('cart').updateOne({
       _id: cart._id,
     }, {$set: {products: upDateProducts, totalPrice: total}});
     return res.sendStatus(200);
 
-
-    //   products:[{name: , price:, sinopse:, quant:, imgUrl:}, {}, {}]}
-    //  totalPrice
-    //  id
   } catch (error) {
     console.log(error);
     res.sendStatus(500);
   }
-};
 
+}
 export {cartGet, cartInsert};
