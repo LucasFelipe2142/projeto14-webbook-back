@@ -1,15 +1,18 @@
-import { MongoClient } from 'mongodb';
-const mongoClient = new MongoClient('mongodb://localhost:27017')
+/* eslint-disable require-jsdoc */
+import {MongoClient} from 'mongodb';
+import dotenv from 'dotenv';
 
-export default async function mongo () {
-    let conn;
+dotenv.config();
+const mongoClient = new MongoClient(process.env.MONGO_URI);
 
-    try {
-        
-        conn = mongoClient.db('webookBD');
+export default async function mongo() {
+  let conn;
+
+  try {
+    conn = mongoClient.db('webookBD');
     return conn;
-    } catch (error) {
-        console.error(error)
-        return error;    
-    }
+  } catch (error) {
+    console.error(error);
+    return error;
+  }
 }

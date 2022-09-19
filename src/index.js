@@ -1,10 +1,10 @@
 /* eslint-disable require-jsdoc */
 import express from 'express';
 import cors from 'cors';
-import {postCadastro, getCadastro} from './cadastro.js';
-import {postLogin, Delete} from './login.js';
-import {postBook, getBook} from './books.js';
-import {validaCadastro, validaBook} from './validations.js';
+import {postCadastro, getCadastro} from './controller/cadastro.js';
+import {postLogin, Delete} from './controller/login.js';
+import {postBook, getBook} from './controller/books.js';
+import {validaCadastro, validaBook} from './middlewares/validations.js';
 import cartRoute from './routes/cartRoute.js';
 import purchasesRoute from './routes/purchaseRoute.js'
 
@@ -16,7 +16,7 @@ app.get('/cadastro', getCadastro);
 
 app.post('/login', postLogin);
 
-app.delete('/logout/:token', Delete);
+app.delete('/logout', Delete);
 
 app.post('/sold', validaBook, postBook);
 
@@ -26,8 +26,12 @@ app.use(cartRoute);
 
 app.use(purchasesRoute);
 
-app.listen(5000);
-console.log("server running on port 5000");
+//app.listen(5000);
+//console.log("server running on port 5000");
+
+app.listen(process.env.PORT, () => {
+  console.log('Server running on port ' + process.env.PORT);
+});
 
 function start() {
   const app = express();

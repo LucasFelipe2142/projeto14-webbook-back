@@ -1,23 +1,24 @@
-import joi from 'joi';
-import dayjs from 'dayjs';
-import mongo from '../db/db.js'
+/* eslint-disable require-jsdoc */
+// import Joi from 'joi';
+// import dayjs from 'dayjs';
+import mongo from '../db/db.js';
 
-//middleware - daqui a pouco ele sai daqui
+// middleware - daqui a pouco ele sai daqui
 async function hasUser(req, res, next) {
-  const { token } = req.headers;
+  const {token} = req.headers;
+  console.log(token);
 
   try {
+    const db = await mongo();
 
-    let db = await mongo();
-
-    const user = await db.collection('sessionsBD').findOne({ token: token });
+    const user = await db.collection('sessionsBD').findOne({token: token});
 
     if (!user) {
       return res.sendStatus(401);
     }
 
     res.locals.user = user;
-    //Passar pro controller
+    // Passar pro controller
     next();
   } catch (error) {
     console.log(error);

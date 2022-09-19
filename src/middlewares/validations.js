@@ -19,7 +19,8 @@ export async function validaBook(req, res, next) {
   });
 
   if (validation.error) {
-    return res.send('deu ruim');
+    console.log(validation.error);
+    return res.send(validation.error);
   }
 
   next();
@@ -39,7 +40,6 @@ const schemaBook = Joi.object().keys({
   description: Joi.string().min(1).required(),
   autor: Joi.string().min(1).required(),
   url: Joi.string().min(1).required(),
-  number_solds: Joi.number().required(),
   price: Joi.number().required(),
   genre: Joi.string().required(),
 });

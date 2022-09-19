@@ -6,7 +6,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const mongoClient = new MongoClient(process.env.URI);
+const mongoClient = new MongoClient(process.env.MONGO_URI);
 
 let db;
 
@@ -20,6 +20,7 @@ export async function postLogin(req, res) {
         email: req.body.email,
       })
       .then((user) => {
+        console.log(user);
         if (user === null) return res.send(404);
         else if (user && bcrypt.compareSync(req.body.password, user.password)) {
           const token = uuid();
@@ -39,15 +40,9 @@ export async function postLogin(req, res) {
 }
 
 export async function Delete(req, res) {
-  const {token} = req.params;
-  console.log(token);
-
   db.collection('sessionsBD')
-      .deleteOne({
-        token: token,
-      })
+      .drop()
       .then(() => {
-        console.log('achou');
-        res.sendStatus(201);
+        console.log('reset seassion');
       });
 }

@@ -1,18 +1,22 @@
 import mongo from '../db/db.js';
+import dotenv from 'dotenv';
 
+dotenv.config();
 
-let db = await mongo();
+const db = await mongo();
 
 const cartGet = async (req, res) => {
   const user = res.locals.user;
 
-  let userId = user.userId.toString();
-  
+
+
+  const userId = user.userId.toString();
 
   try {
     const booksCart = await db
-      .collection('cart')
-      .findOne({ userId: userId });
+        .collection('cart')
+        .findOne({userId: user.userId});
+
 
       console.log(booksCart);
     if (!booksCart) {
@@ -28,21 +32,18 @@ const cartGet = async (req, res) => {
 
 const cartInsert = async (req, res) => {
   const user = res.locals.user;
-  console.log(user);
-  const bookData = req.body;
-  console.log(bookData);
 
- 
+  const bookData = req.body;
 
 
   try {
-    //const user = await db.collection('sessionsBD').findOne({ token: user.token });
+    
     const userId = user.userId.toString();
     console.log(user);
 
     const cart = await db
-      .collection('cart')
-      .findOne({userId: userId});
+        .collection('cart')
+        .findOne({userId: userId});
 
       if (!cart) {
         const newCart = {
@@ -55,39 +56,24 @@ const cartInsert = async (req, res) => {
       }
 
 
-
-    // if(cart.products.some(product => bookData._id === product.id)){
-    //   res.status(404).send("Este livro já está no carrinho");
-    //   return;
-    // }
+    
 
     const upDateProducts = [...cart.products, bookData];
 
-      let total = 0;
-      for(let i=0; i<upDateProducts.length; i++){
-        total = upDateProducts[i].price + total;
-      }
-
-      //const newCart = {id,upDateProducts,total}
-
-      console.log("chegou");
-      console.log(cart);
-      await db.collection('cart').updateOne({ 
-        _id: cart._id 
-      }, { $set: {products: upDateProducts, totalPrice: total} })
-      return res.sendStatus(200);
-
-    
-   //   products:[{name: , price:, sinopse:, quant:, imgUrl:}, {}, {}]}
-    //  totalPrice
-    //  id
-    
-  } catch(error)
-    {
-      console.log(error);
-      res.sendStatus(500)
+    let total = 0;
+    for (let i=0; i<upDateProducts.length; i++) {
+      total = upDateProducts[i].price + total;
     }
 
-};
+    await db.collection('cart').updateOne({
+      _id: cart._id,
+    }, {$set: {products: upDateProducts, totalPrice: total}});
+    return res.sendStatus(200);
 
-export { cartGet, cartInsert};
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+
+}
+export {cartGet, cartInsert};
