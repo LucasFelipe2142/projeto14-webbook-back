@@ -1,6 +1,3 @@
-import joi from 'joi';
-import dayjs from 'dayjs';
-
 import mongo from '../db/db.js';
 
 
@@ -10,12 +7,14 @@ const cartGet = async (req, res) => {
   const user = res.locals.user;
 
   let userId = user.userId.toString();
+  
 
   try {
     const booksCart = await db
       .collection('cart')
-      .findOne({ userId: user.userId });
+      .findOne({ userId: userId });
 
+      console.log(booksCart);
     if (!booksCart) {
       res.sendStatus(404);
       return;
@@ -33,16 +32,21 @@ const cartInsert = async (req, res) => {
   const bookData = req.body;
   console.log(bookData);
 
-  const userId = await db.collection('sessionsBD').findOne({ token: user.token });
+ 
 
 
   try {
+    //const user = await db.collection('sessionsBD').findOne({ token: user.token });
+    const userId = user.userId.toString();
+    console.log(user);
+
     const cart = await db
       .collection('cart')
       .findOne({userId: userId});
 
       if (!cart) {
-        const newCart = {userId:userId, 
+        const newCart = {
+          userId:userId, 
           products:[bookData],
           totalPrice:bookData.price};
 

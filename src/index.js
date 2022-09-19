@@ -6,6 +6,7 @@ import {postLogin, Delete} from './login.js';
 import {postBook, getBook} from './books.js';
 import {validaCadastro, validaBook} from './validations.js';
 import cartRoute from './routes/cartRoute.js';
+import purchasesRoute from './routes/purchaseRoute.js'
 
 const app = start();
 
@@ -22,6 +23,8 @@ app.post('/sold', validaBook, postBook);
 app.get('/home/:genre', getBook);
 
 app.use(cartRoute);
+
+app.use(purchasesRoute);
 
 app.listen(5000);
 console.log("server running on port 5000");
