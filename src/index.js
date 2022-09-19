@@ -2,7 +2,6 @@
 import express from 'express';
 import cors from 'cors';
 import cartRoute from './routes/cartRoute.js';
-
 import purchasesRoute from './routes/purchaseRoute.js';
 import registrateRouters from './routes/resgistrateRoutes.js';
 import bookRouter from './routes/bookRouter.js';
@@ -13,7 +12,7 @@ app.use(registrateRouters);
 
 app.use(bookRouter);
 
-router.post('/login', postLogin);
+app.post('/login', postLogin);
 
 app.use(cartRoute);
 
