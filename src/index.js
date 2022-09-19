@@ -4,7 +4,7 @@ import cors from 'cors';
 import cartRoute from './routes/cartRoute.js';
 import registrateRouters from './routes/resgistrateRoutes.js';
 import bookRouter from './routes/bookRouter.js';
-import {postLogin, Delete} from '../src/controller/login.js';
+import {postLogin} from '../src/controller/login.js';
 const app = start();
 
 app.use(registrateRouters);
@@ -12,8 +12,6 @@ app.use(registrateRouters);
 app.use(bookRouter);
 
 router.post('/login', postLogin);
-
-router.delete('/logout', Delete);
 
 app.use(cartRoute);
 
