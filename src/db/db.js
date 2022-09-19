@@ -1,6 +1,6 @@
 /* eslint-disable require-jsdoc */
 import {MongoClient} from 'mongodb';
-const mongoClient = new MongoClient('mongodb://localhost:27017');
+const mongoClient = new MongoClient(process.env.MONGO_URI);
 
 export default async function mongo() {
   let conn;

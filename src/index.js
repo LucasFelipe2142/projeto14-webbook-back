@@ -1,12 +1,11 @@
 /* eslint-disable require-jsdoc */
 import express from 'express';
 import cors from 'cors';
-import {postCadastro, getCadastro} from './cadastro.js';
-import {postLogin, Delete} from './login.js';
-import {postBook, getBook} from './books.js';
-import {validaCadastro, validaBook} from './validations.js';
+import {postCadastro, getCadastro} from './controller/cadastro.js';
+import {postLogin, Delete} from './controller/login.js';
+import {postBook, getBook} from './controller/books.js';
+import {validaCadastro, validaBook} from './middlewares/validations.js';
 import cartRoute from './routes/cartRoute.js';
-
 const app = start();
 
 app.post('/cadastro', validaCadastro, postCadastro);

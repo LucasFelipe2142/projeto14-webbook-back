@@ -6,6 +6,7 @@ import mongo from '../db/db.js';
 // middleware - daqui a pouco ele sai daqui
 async function hasUser(req, res, next) {
   const {token} = req.headers;
+  console.log(token);
 
   try {
     const db = await mongo();

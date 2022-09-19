@@ -15,12 +15,16 @@ mongoClient.connect().then(() => {
 });
 
 export async function postBook(req, res) {
+  const token = req.headers.authorization?.replace('Bearer ', '');
   db.collection('sessionsBD')
       .findOne({
-        token: req.headers.token,
+        token: token,
       })
       .then((result) => {
-        if (result === null) return res.sendStatus(404);
+        if (result === null) {
+          console.log('aqui');
+          return res.sendStatus(404);
+        }
         db.collection('booksBD').insertOne({
           ...req.body,
           userID: result.userID,

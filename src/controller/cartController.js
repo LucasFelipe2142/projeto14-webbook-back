@@ -30,9 +30,9 @@ const cartGet = async (req, res) => {
 
 const cartInsert = async (req, res) => {
   const user = res.locals.user;
-  console.log(user);
+  // console.log(user);
   const bookData = req.body;
-  console.log(bookData);
+  // console.log(bookData);
 
   const userId = await db.collection('sessionsBD').findOne({token: user.token});
 
@@ -66,8 +66,8 @@ const cartInsert = async (req, res) => {
 
     // const newCart = {id,upDateProducts,total}
 
-    console.log('chegou');
-    console.log(cart);
+    // console.log('chegou');
+    // console.log(cart);
     await db.collection('cart').updateOne({
       _id: cart._id,
     }, {$set: {products: upDateProducts, totalPrice: total}});
