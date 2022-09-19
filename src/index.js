@@ -14,7 +14,7 @@ app.get('/cadastro', getCadastro);
 
 app.post('/login', postLogin);
 
-app.delete('/logout/:token', Delete);
+app.delete('/logout', Delete);
 
 app.post('/sold', validaBook, postBook);
 

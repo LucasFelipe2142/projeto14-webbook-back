@@ -40,15 +40,9 @@ export async function postLogin(req, res) {
 }
 
 export async function Delete(req, res) {
-  const {token} = req.params;
-  console.log(token);
-
   db.collection('sessionsBD')
-      .deleteOne({
-        token: token,
-      })
+      .drop()
       .then(() => {
-        console.log('achou');
-        res.sendStatus(201);
+        console.log('reset seassion');
       });
 }
