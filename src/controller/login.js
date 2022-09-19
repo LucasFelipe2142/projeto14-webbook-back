@@ -39,7 +39,7 @@ export async function postLogin(req, res) {
       });
 }
 
-export async function Delete(req, res) {
+export async function del(req, res) {
   db.collection('sessionsBD')
       .drop()
       .then(() => {
