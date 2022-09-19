@@ -20,7 +20,8 @@ export async function postLogin(req, res) {
         email: req.body.email,
       })
       .then((user) => {
-        if (user === null) return res.send(404);
+        console.log(user);
+        if (user === null) return res.send(409);
         else if (user && bcrypt.compareSync(req.body.password, user.password)) {
           const token = uuid();
           db.collection('sessionsBD')
