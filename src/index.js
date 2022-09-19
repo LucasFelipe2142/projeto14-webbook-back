@@ -1,24 +1,17 @@
 /* eslint-disable require-jsdoc */
 import express from 'express';
 import cors from 'cors';
-import {postCadastro, getCadastro} from './controller/cadastro.js';
-import {postLogin, Delete} from './controller/login.js';
-import {postBook, getBook} from './controller/books.js';
-import {validaCadastro, validaBook} from './middlewares/validations.js';
+import loginRoutes from './routes/loginRoutes.js';
 import cartRoute from './routes/cartRoute.js';
+import registrateRouters from './routes/resgistrateRoutes.js';
+import bookRouter from './routes/bookRouter.js';
 const app = start();
 
-app.post('/cadastro', validaCadastro, postCadastro);
+app.use(registrateRouters);
 
-app.get('/cadastro', getCadastro);
+app.use(bookRouter);
 
-app.post('/login', postLogin);
-
-app.delete('/logout', Delete);
-
-app.post('/sold', validaBook, postBook);
-
-app.get('/home/:genre', getBook);
+app.use(loginRoutes);
 
 app.use(cartRoute);
 
