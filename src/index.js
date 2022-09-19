@@ -2,17 +2,18 @@
 import express from 'express';
 import cors from 'cors';
 import cartRoute from './routes/cartRoute.js';
-import loginRoutes from './routes/loginRoutes';
+
 import purchasesRoute from './routes/purchaseRoute.js';
 import registrateRouters from './routes/resgistrateRoutes.js';
 import bookRouter from './routes/bookRouter.js';
+import {postLogin} from './controller/login.js';
 const app = start();
 
 app.use(registrateRouters);
 
 app.use(bookRouter);
 
-app.use(loginRoutes);
+router.post('/login', postLogin);
 
 app.use(cartRoute);
 
